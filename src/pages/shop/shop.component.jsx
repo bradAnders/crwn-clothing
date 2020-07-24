@@ -3,7 +3,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import CollectionsOverview from '../../components/collections-overview/collections-overview.component';
-import CategoryPage from '../category/category.component'
+import CollectionPage from '../collection/collection.component'
 
 import './shop.styles.scss'
 
@@ -12,8 +12,8 @@ import './shop.styles.scss'
 const ShopPage = ({ match }) => (
   <div className='shop-page'>
     <Route exact path={ `${ match.path }` } component={ CollectionsOverview } />
-    {/* categoryId is passed as a parameter to CategoryPage ({ match.params.categoryId })*/}
-    <Route path={ `${ match.path }/:categoryId` } component={ CategoryPage } />
+    {/* collectionId is passed as a parameter to CollectionPage ({ match.params.collectionId })*/}
+    <Route path={ `${ match.path }/:collectionId` } component={ CollectionPage } />
   </div>
 );
 
