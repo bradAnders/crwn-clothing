@@ -8,16 +8,20 @@ import CollectionItem from '../../components/collection-item/collection-item.com
 import './collection.styles.scss';
 
 // CollectionPage is a Route in ShopPage.js, so we get match automatically
-const CollectionPage = ({ match: { params: { collectionId }}, collection: { items } }) => (
-  <div className="category">
-    <h2>Collection Page { collectionId }</h2>
-    {
-      items.map(
-        item => <CollectionItem  key={ item.id } item={ item } />
-      )
-    }
-  </div>
-);
+const CollectionPage = ({ match, collection }) => {
+  const { title, items } = collection
+  console.log(match, collection);
+  return (
+    <div className="collection-page">
+      <h2 className='title'>{ title }</h2>
+      <div className="items">
+        {items.map(
+          item => <CollectionItem  key={ item.id } item={ item } />
+        )}
+      </div>
+    </div>
+  )
+;}
 
 const mapStateToProps = (state, ownProps) => ({
   collection: selectCollection(ownProps.match.params.collectionId)(state)
