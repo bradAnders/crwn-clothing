@@ -8,6 +8,7 @@
 # testing
 /coverage
 /src/firebase/firebase.config.js
+/src/components/stripe-button/stripe-button.key.js
 
 # production
 /build
