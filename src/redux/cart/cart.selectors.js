@@ -1,8 +1,12 @@
 import { createSelector } from 'reselect';
-import { createStore } from 'redux';
 
 // Input selector
 const selectCart = state => state.cart;
+
+export const selectCartHidden = createSelector(
+  [selectCart],
+  cart => cart.hidden
+)
 
 // Memoized selector (Output selector)
 export const selectCartItems = createSelector(
