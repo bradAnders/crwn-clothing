@@ -10,7 +10,6 @@ import './collection.styles.scss';
 // CollectionPage is a Route in ShopPage.js, so we get match automatically
 const CollectionPage = ({ match, collection }) => {
   const { title, items } = collection
-  console.log(match, collection);
   return (
     <div className="collection-page">
       <h2 className='title'>{ title }</h2>
