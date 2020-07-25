@@ -4,7 +4,6 @@ import StripeCheckout from 'react-stripe-checkout';
 import publicKey from './stripe-button.key';
 
 const onToken = token => {
-  console.log(token);
   alert('Payment successful')
 }
 
