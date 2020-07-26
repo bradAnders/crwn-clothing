@@ -12,7 +12,7 @@ import {
 } from './collection.styles';
 
 // CollectionPage is a Route in ShopPage.js, so we get match automatically
-const CollectionPage = ({ match, collection }) => {
+const CollectionPage = ({ collection }) => {
   const { title, items } = collection
   return (
     <CollectionPageContainer>
