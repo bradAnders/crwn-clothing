@@ -21,23 +21,16 @@ const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 // ShopPage is a Route in App.js, so we get match automatically
 class ShopPage extends Component {
   state = { loading: true }
-
-  unsubscribeFromSnapshot = null;
   
   componentDidMount () {
     const collectionRef = firestore.collection('collections');
     const { updateCollections } = this.props;
 
-    this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
+    collectionRef.get().then(snapshot => {
       const collectionsMaps = convertCollectionsSnapshotToMap(snapshot);
       updateCollections(collectionsMaps);
       this.setState({ loading: false })
     })
-  }
-
-  componentWillUnmount () {
-    if (this.unsubscribeFromSnapshot)
-      this.unsubscribeFromSnapshot()
   }
 
   render () {
