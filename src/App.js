@@ -17,8 +17,8 @@ import { selectCurrentUser } from './redux/user/user.selector';
 
 class App extends Component {
 
-  // Memory leaks
   unsubscribeFromAuth = null
+
   componentDidMount() {
     const { setCurrentUser } = this.props
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -32,10 +32,12 @@ class App extends Component {
           })
         })
       } else setCurrentUser(null)
-    })
+    }, error => console.error(error))
   }
+
   componentWillUnmount() {
-    this.unsubscribeFromAuth();
+    if (this.unsubscribeFromAuth)
+      this.unsubscribeFromAuth();
   }
   
   render () {

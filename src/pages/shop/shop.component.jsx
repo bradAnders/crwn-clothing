@@ -23,7 +23,7 @@ class ShopPage extends Component {
   state = { loading: true }
 
   unsubscribeFromSnapshot = null;
-
+  
   componentDidMount () {
     const collectionRef = firestore.collection('collections');
     const { updateCollections } = this.props;
@@ -36,7 +36,8 @@ class ShopPage extends Component {
   }
 
   componentWillUnmount () {
-
+    if (this.unsubscribeFromSnapshot)
+      this.unsubscribeFromSnapshot()
   }
 
   render () {
@@ -44,13 +45,25 @@ class ShopPage extends Component {
     const { loading } = this.state
     return (
     <div className='shop-page'>
-      <Route exact path={ `${ match.path }` } render={
-        (props) => <CollectionsOverviewWithSpinner isLoading={ loading } { ...props } />
-      } />
+      <Route
+        exact path={ `${ match.path }` }
+        render={ (props) =>
+          <CollectionsOverviewWithSpinner
+            isLoading={ loading }
+            { ...props }
+          />
+        }
+      />
       {/* collectionId is passed as a parameter to CollectionPage ({ match.params.collectionId })*/}
-      <Route path={ `${ match.path }/:collectionId` } render={
-        (props) => <CollectionPageWithSpinner isLoading={ loading } { ...props } />
-      } />
+      <Route
+        path={ `${ match.path }/:collectionId` }
+        render={ (props) =>
+          <CollectionPageWithSpinner
+            isLoading={ loading }
+            { ...props }  
+          />
+        }  
+      />
     </div>
   )};
 }
