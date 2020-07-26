@@ -26,10 +26,11 @@ class ShopPage extends Component {
     const collectionRef = firestore.collection('collections');
     const { updateCollections } = this.props;
 
-    // https://firebase.google.com/docs/firestore/use-rest-api
-    fetch('https://firestore.googleapis.com/v1/projects/crwn-clothing-db-4dd27/databases/(default)/documents/collections')
-      .then(response => response.json())
-      .then(collections => console.log(collections) /* Map through the very-nested collection */)
+    collectionRef.get().then(snapshot => {
+      const collectionsMaps = convertCollectionsSnapshotToMap(snapshot);
+      updateCollections(collectionsMaps);
+      this.setState({ loading: false })
+    })
   }
 
   render () {
