@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -16,24 +16,17 @@ import {
   SignUpTitle
 } from './sign-up.styles';
 
-class SignUp extends Component {
-  constructor(props) {
-    super(props)
+const SignUp = ({ signUpStart, signUpError }) => {
+  const [useCredentials, setCredentials] = useState({
+    displayName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const { displayName, email, password, confirmPassword } = useCredentials;
 
-    this.initState = {
-      displayName: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    }
-
-    this.state = this.initState
-  }
-
-  handleSubmit = async e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    const { signUpStart } = this.props
-    const { email, displayName, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
       alert("passwords don't match");
@@ -43,59 +36,55 @@ class SignUp extends Component {
     signUpStart({ email, displayName, password });
   }
 
-  handleChange = e => {
+  const handleChange = e => {
     const { value, name } = e.target;
 
-    this.setState({ [name]: value });
+    setCredentials({ ...useCredentials, [name]: value });
   }
 
-  render() {
-    const { displayName, email, password, confirmPassword } = this.state;
-    const { signUpError } = this.props;
-    return (
-      <SignUpContainer>
-        <SignUpTitle>I do not have an account</SignUpTitle>
-        <span>Sign up with your email and password</span>
+  return (
+    <SignUpContainer>
+      <SignUpTitle>I do not have an account</SignUpTitle>
+      <span>Sign up with your email and password</span>
 
-        <form className="sign-up-form" onSubmit={this.handleSubmit}>
-          <FormInput
-            type="text"
-            name="displayName"
-            label="Display Name"
-            value={displayName}
-            handleChange={this.handleChange}
-            required
-          />
-          <FormInput
-            type="email"
-            name="email"
-            label="Email"
-            value={email}
-            handleChange={this.handleChange}
-            required
-          />
-          <FormInput
-            type="password"
-            name="password"
-            label="Password"
-            value={password}
-            handleChange={this.handleChange}
-            required
-          />
-          <FormInput
-            type="password"
-            name="confirmPassword"
-            label="Confirm Password"
-            value={confirmPassword}
-            handleChange={this.handleChange}
-            required
-          />
-          <CustomButton type="submit">Sign up</CustomButton>
-          <h3>{signUpError}</h3>
-        </form>
-      </SignUpContainer>
-    );
-  }
+      <form className="sign-up-form" onSubmit={handleSubmit}>
+        <FormInput
+          type="text"
+          name="displayName"
+          label="Display Name"
+          value={displayName}
+          handleChange={handleChange}
+          required
+        />
+        <FormInput
+          type="email"
+          name="email"
+          label="Email"
+          value={email}
+          handleChange={handleChange}
+          required
+        />
+        <FormInput
+          type="password"
+          name="password"
+          label="Password"
+          value={password}
+          handleChange={handleChange}
+          required
+        />
+        <FormInput
+          type="password"
+          name="confirmPassword"
+          label="Confirm Password"
+          value={confirmPassword}
+          handleChange={handleChange}
+          required
+        />
+        <CustomButton type="submit">Sign up</CustomButton>
+        <h3>{signUpError}</h3>
+      </form>
+    </SignUpContainer>
+  );
 }
 
 const mapStateToProps = createStructuredSelector({
