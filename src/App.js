@@ -17,46 +17,46 @@ import { selectCurrentUser } from './redux/user/user.selector';
 
 class App extends Component {
 
-  unsubscribeFromAuth = null
+  // unsubscribeFromAuth = null
 
   componentDidMount() {
     const { setCurrentUser } = this.props
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    //   if (userAuth) {
+    //     const userRef = await createUserProfileDocument(userAuth);
 
-        userRef.onSnapshot(snapshot => {
-          setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data()
-          })
-        })
-      } else setCurrentUser(null)
-    }, error => console.error(error))
+    //     userRef.onSnapshot(snapshot => {
+    //       setCurrentUser({
+    //         id: snapshot.id,
+    //         ...snapshot.data()
+    //       })
+    //     })
+    //   } else setCurrentUser(null)
+    // }, error => console.error(error))
   }
 
   componentWillUnmount() {
-    if (this.unsubscribeFromAuth)
-      this.unsubscribeFromAuth();
+    // if (this.unsubscribeFromAuth)
+    //   this.unsubscribeFromAuth();
   }
-  
-  render () {
+
+  render() {
     return (
       <div className="App">
         <Header />
         <Switch>
-          <Route exact path='/' component={ HomePage } />
-          <Route path='/shop' component={ ShopPage } />
-          <Route exact path='/checkout' component={ CheckoutPage } />
+          <Route exact path='/' component={HomePage} />
+          <Route path='/shop' component={ShopPage} />
+          <Route exact path='/checkout' component={CheckoutPage} />
           <Route
             exact
             path='/signin'
-            render={ () =>
+            render={() =>
               this.props.currentUser ? (
                 <Redirect to='/' />
               ) : (
-                <SignInAndSignUpPage />
-              )
+                  <SignInAndSignUpPage />
+                )
             }
           />
         </Switch>
