@@ -19,6 +19,7 @@ export const fetchCollectionsFailure = errorMessage => ({
   payload: errorMessage
 });
 
+// Redux-thunk only interacts with functional dispatches; ignores object dispatches
 export const fetchCollectionsStartAsync = () => {
   return dispatch => {
     const collectionRef = firestore.collection('collections');
