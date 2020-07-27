@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+import { selectSignInError } from '../../redux/user/user.selector';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
-
-import { googleSignInStart } from '../../redux/user/user.actions';
+import {
+  googleSignInStart,
+  emailSignInStart
+} from '../../redux/user/user.actions';
 
 import {
   SignInContainer,
@@ -27,14 +31,10 @@ class SignIn extends Component {
   handleSubmit = async e => {
     e.preventDefault();
 
+    const { emailSignInStart } = this.props;
     const { email, password } = this.state;
 
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      this.setState({ email: '', password: '' })
-    } catch (error) {
-      console.error(error);
-    }
+    emailSignInStart(email, password);
   }
 
   handleChange = e => {
@@ -44,7 +44,7 @@ class SignIn extends Component {
   }
 
   render() {
-    const { googleSignInStart } = this.props
+    const { googleSignInStart, signInError } = this.props
     return (
       <SignInContainer>
         <SignInTitle>I already have an account</SignInTitle>
@@ -81,8 +81,15 @@ class SignIn extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  googleSignInStart: () => dispatch(googleSignInStart())
+const mapStateToProps = createStructuredSelector({
+  signInError: selectSignInError
 })
 
-export default connect(null, mapDispatchToProps)(SignIn);
+const mapDispatchToProps = dispatch => ({
+  googleSignInStart: () => dispatch(googleSignInStart()),
+  emailSignInStart: (email, password) => dispatch(emailSignInStart({
+    email, password
+  }))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
