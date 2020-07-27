@@ -44,7 +44,7 @@ class SignIn extends Component {
   }
 
   render() {
-    const { googleSignInStart, signInError } = this.props
+    const { googleSignInStart } = this.props
     return (
       <SignInContainer>
         <SignInTitle>I already have an account</SignInTitle>
