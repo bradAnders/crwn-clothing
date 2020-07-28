@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import CollectionsContext from "../../contexts/collections/collections.contexts";
 
@@ -12,23 +12,17 @@ import {
 
 // CollectionPage is a Route in ShopPage.js, so we get match automatically
 const CollectionPage = ({ match }) => {
+  const collections = useContext(CollectionsContext);
+  const { title, items } = collections[match.params.collectionId];
   return (
-    <CollectionsContext.Consumer>
-      {(collections) => {
-        const collection = collections[match.params.collectionId];
-        const { title, items } = collection;
-        return (
-          <CollectionPageContainer>
-            <CollectionTitle>{title}</CollectionTitle>
-            <CollectionItemsContainer>
-              {items.map((item) => (
-                <CollectionItem key={item.id} item={item} />
-              ))}
-            </CollectionItemsContainer>
-          </CollectionPageContainer>
-        );
-      }}
-    </CollectionsContext.Consumer>
+    <CollectionPageContainer>
+      <CollectionTitle>{title}</CollectionTitle>
+      <CollectionItemsContainer>
+        {items.map((item) => (
+          <CollectionItem key={item.id} item={item} />
+        ))}
+      </CollectionItemsContainer>
+    </CollectionPageContainer>
   );
 };
 
