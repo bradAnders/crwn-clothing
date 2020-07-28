@@ -1,31 +1,30 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useContext } from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
-import { toggleCartHidden } from '../../redux/cart/cart.actions';
-import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
-import { createStructuredSelector } from 'reselect';
+import { selectCartItemsCount } from "../../redux/cart/cart.selectors";
+import CartContext from "../../contexts/cart/cart.contexts";
 
 import {
   CartContainer,
   ShoppingIcon,
-  ItemCountContainer
-} from './cart-icon.styles';
+  ItemCountContainer,
+} from "./cart-icon.styles";
 
-const CartIcon = ({ itemCount, toggleCartHidden }) => (
-  <CartContainer onClick={ toggleCartHidden }>
-    <ShoppingIcon className='shopping-icon' />
-    <ItemCountContainer className='item-count'>
-      { itemCount }
-    </ItemCountContainer>
-  </CartContainer>
-);
+const CartIcon = ({ itemCount }) => {
+  const { toggleHidden } = useContext(CartContext);
+  return (
+    <CartContainer onClick={toggleHidden}>
+      <ShoppingIcon className="shopping-icon" />
+      <ItemCountContainer className="item-count">
+        {itemCount}
+      </ItemCountContainer>
+    </CartContainer>
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
-  itemCount: selectCartItemsCount
-})
+  itemCount: selectCartItemsCount,
+});
 
-const mapDispatchToProps = dispatch => ({
-  toggleCartHidden: () => dispatch(toggleCartHidden())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartIcon)
+export default connect(mapStateToProps)(CartIcon);
