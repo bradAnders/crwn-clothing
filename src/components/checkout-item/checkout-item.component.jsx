@@ -1,41 +1,35 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useContext } from "react";
 
-import { addItem, removeItem, clearItemFromCart } from '../../redux/cart/cart.actions';
+import { CartContext } from "../../providers/cart/cart.provider";
 
 import {
   CheckoutItemContainer,
   ImageContainer,
   TextContainer,
   QuantityContainer,
-  RemoveButtonContainer
-} from './checkout-item.styles';
+  RemoveButtonContainer,
+} from "./checkout-item.styles";
 
-const CheckoutItem = ({ cartItem, clearItem, addItem, removeItem }) => {
-  const { imageUrl, name, quantity, price } = cartItem
+const CheckoutItem = ({ cartItem }) => {
+  const { imageUrl, name, quantity, price } = cartItem;
+  const { addItem, removeItem, clearItemFromCart } = useContext(CartContext);
   return (
     <CheckoutItemContainer>
       <ImageContainer>
-        <img src={ imageUrl } alt="item"/>
+        <img src={imageUrl} alt="item" />
       </ImageContainer>
-      <TextContainer>{ name }</TextContainer>
+      <TextContainer>{name}</TextContainer>
       <QuantityContainer>
-        <div onClick={ () => removeItem(cartItem) } >&#10094;</div>
-        <span>{ quantity }</span>
-        <div onClick={ () => addItem(cartItem) } >&#10095;</div>
+        <div onClick={() => removeItem(cartItem)}>&#10094;</div>
+        <span>{quantity}</span>
+        <div onClick={() => addItem(cartItem)}>&#10095;</div>
       </QuantityContainer>
-      <TextContainer>${ price }</TextContainer>
-      <RemoveButtonContainer onClick={ () => clearItem(cartItem) }>
+      <TextContainer>${price}</TextContainer>
+      <RemoveButtonContainer onClick={() => clearItemFromCart(cartItem)}>
         &#10005;
       </RemoveButtonContainer>
     </CheckoutItemContainer>
   );
-}
+};
 
-const mapDispatchToProps = dispatch => ({
-  clearItem: item => dispatch(clearItemFromCart(item)),
-  addItem: item => dispatch(addItem(item)),
-  removeItem: item => dispatch(removeItem(item))
-})
-
-export default connect(null, mapDispatchToProps)(CheckoutItem);
+export default CheckoutItem;
